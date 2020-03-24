@@ -1,0 +1,3 @@
+# Jellyfin Apiclient Kotlin
+
+WIP
