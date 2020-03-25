@@ -5,8 +5,9 @@
 image: gradle:alpine
 
 # Dependency scanning
-include:
-  - template: Dependency-Scanning.gitlab-ci.yml
+# Disabled until https://gitlab.com/gitlab-org/gitlab/-/issues/209345 is resolved
+#include:
+#  - template: Dependency-Scanning.gitlab-ci.yml
 
 # Disable the Gradle daemon for Continuous Integration servers as correctness
 # is usually a priority over speed in CI environments. Using a fresh
