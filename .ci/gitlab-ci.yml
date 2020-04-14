@@ -31,7 +31,7 @@ build:
   script: ./gradlew assemble
   cache:
     <<: *global_cache
-    policy: push
+    policy: pull-push
 
 test:
   stage: test
