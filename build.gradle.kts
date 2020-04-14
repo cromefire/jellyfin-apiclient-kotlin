@@ -24,9 +24,9 @@ plugins {
     kotlin("multiplatform") version "1.3.71"
     kotlin("plugin.serialization") version "1.3.71"
     id("nebula.project") version "7.0.8"
-    id("nebula.maven-publish") version "17.2.1"
     id("nebula.javadoc-jar") version "17.2.1"
     id("nebula.source-jar") version "17.2.1"
+    `maven-publish`
     idea
 }
 
@@ -95,6 +95,8 @@ contacts {
 publishing {
     repositories {
         maven("https://gitlab.com/api/v4/projects/17693247/packages/maven") {
+            name = "gitlab"
+
             credentials(HttpHeaderCredentials::class.java) {
                 val jobToken = System.getenv("CI_JOB_TOKEN")
                 if (jobToken != null) {
