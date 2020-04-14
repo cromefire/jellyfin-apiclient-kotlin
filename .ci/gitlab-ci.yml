@@ -34,11 +34,18 @@ build:
     policy: pull-push
 
 test:
+  dependencies: []
+  needs:
+    - build
   stage: test
   script:
     - ./gradlew check
 
 deploy:
+  dependencies: []
+  needs:
+    - test
+  stage: deploy
   only:
     - master
   script:
