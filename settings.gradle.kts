@@ -15,4 +15,5 @@
  */
 
 rootProject.name = "jellyfin-apiclient-kotlin"
-
+include("client")
+enableFeaturePreview("GRADLE_METADATA")
