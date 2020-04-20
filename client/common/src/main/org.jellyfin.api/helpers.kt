@@ -16,11 +16,13 @@
 
 package org.jellyfin.api
 
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.features.defaultRequest
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.header
-import io.ktor.client.request.url
 import io.ktor.http.URLBuilder
 import io.ktor.http.Url
+import io.ktor.http.takeFrom
 
 
 internal fun HttpRequestBuilder.addAuthToken(platform: Platform, token: String?) {
@@ -35,6 +37,19 @@ internal fun HttpRequestBuilder.addAuthToken(platform: Platform, token: String?)
     header("X-Emby-Authorization", "MediaBrowser ${params.joinToString(", ")}")
 }
 
-internal fun HttpRequestBuilder.addPath(address: String, p: String) {
-    this.url(URLBuilder(address).path(Url(address).encodedPath, p).build())
+
+internal fun HttpClientConfig<*>.basePath(a: String) {
+    val base = Url(a)
+    defaultRequest {
+        url.takeFrom(URLBuilder().takeFrom(base).apply {
+            encodedPath += url.encodedPath
+        })
+    }
+}
+
+
+internal fun HttpRequestBuilder.path(p: String) {
+    url {
+        path(p)
+    }
 }

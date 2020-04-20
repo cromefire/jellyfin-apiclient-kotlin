@@ -16,9 +16,6 @@
 
 package org.jellyfin.api
 
-import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
@@ -32,9 +29,3 @@ val jsonConfiguration = JsonConfiguration.Stable.copy(
 internal val clientJson = Json(
     jsonConfiguration
 )
-
-internal val client = HttpClient {
-    install(JsonFeature) {
-        serializer = KotlinxSerializer(clientJson)
-    }
-}

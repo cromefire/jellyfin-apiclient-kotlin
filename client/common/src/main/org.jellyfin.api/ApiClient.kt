@@ -16,6 +16,9 @@
 
 package org.jellyfin.api
 
+import io.ktor.client.HttpClient
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import org.jellyfin.api.models.User
@@ -25,23 +28,29 @@ class ApiClient(
     //val appStorage: Any,
     val serverAddress: String,
     val platform: Platform,
-    val token: String,
+    private val token: String,
     val userId: String
 ) {
+    private val client = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(clientJson)
+        }
+
+        basePath(serverAddress)
+    }
+
     val public = PublicApiClient(serverAddress, platform)
 
     suspend fun userInfo(): User {
         return client.get {
             auth()
-            path("Users/$userId")
+            url {
+                path("Users/$userId")
+            }
         }
     }
 
     // Helpers
-    private fun HttpRequestBuilder.path(p: String) {
-        this.addPath(serverAddress, p)
-    }
-
     private fun HttpRequestBuilder.auth() {
         this.addAuthToken(platform, token)
     }
