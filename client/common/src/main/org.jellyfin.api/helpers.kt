@@ -1,4 +1,10 @@
 /*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+/*
  * Copyright 2020
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,12 +44,14 @@ internal fun HttpRequestBuilder.addAuthToken(platform: Platform, token: String?)
 }
 
 
-internal fun HttpClientConfig<*>.basePath(a: String) {
-    val base = Url(a)
+internal fun HttpClientConfig<*>.configure(basePath: String) {
+    val base = Url(basePath)
+
     defaultRequest {
         url.takeFrom(URLBuilder().takeFrom(base).apply {
             encodedPath += url.encodedPath
         })
+        header("Accept", "application/json;Profile=\"CamelCase\"")
     }
 }
 
