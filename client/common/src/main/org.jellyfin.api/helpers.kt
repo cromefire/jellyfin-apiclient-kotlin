@@ -1,10 +1,4 @@
 /*
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
-/*
  * Copyright 2020
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +12,12 @@
  *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
+ */
+
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
 package org.jellyfin.api
@@ -44,7 +44,7 @@ internal fun HttpRequestBuilder.addAuthToken(platform: Platform, token: String?)
 }
 
 
-internal fun HttpClientConfig<*>.configure(basePath: String) {
+internal fun HttpClientConfig<*>.configureDefault(basePath: String, block: (HttpRequestBuilder.() -> Unit)? = null) {
     val base = Url(basePath)
 
     defaultRequest {
@@ -52,6 +52,7 @@ internal fun HttpClientConfig<*>.configure(basePath: String) {
             encodedPath += url.encodedPath
         })
         header("Accept", "application/json;Profile=\"CamelCase\"")
+        block?.invoke(this)
     }
 }
 

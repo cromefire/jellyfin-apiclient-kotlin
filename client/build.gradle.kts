@@ -17,6 +17,7 @@
 @file:Suppress("PropertyName", "UNUSED_VARIABLE")
 
 import nebula.plugin.contacts.Contact
+import org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest
 
 val ktor_version: String by project
 
@@ -43,7 +44,22 @@ kotlin {
      * To find out how to configure the targets, please follow the link:
      * https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets
      */
-    jvm("android")
+    jvm() {
+        val main by compilations.getting {
+            kotlinOptions {
+                // Setup the Kotlin compiler options for the 'main' compilation:
+                jvmTarget = "1.8"
+            }
+        }
+    }
+    jvm("android") {
+        val main by compilations.getting {
+            kotlinOptions {
+                // Setup the Kotlin compiler options for the 'main' compilation:
+                jvmTarget = "1.8"
+            }
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -62,6 +78,25 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+            }
+        }
+        val jvmMain by getting {
+            kotlin.srcDir("jvm/src/main")
+
+            dependencies {
+                implementation(kotlin("stdlib-jdk8"))
+                api("io.ktor:ktor-client-apache:$ktor_version")
+                implementation("io.ktor:ktor-client-json-jvm:$ktor_version")
+                implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
+            }
+        }
+        val jvmTest by getting {
+            kotlin.srcDir("jvm/src/test")
+
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit5"))
+                implementation("org.junit.jupiter:junit-jupiter:5.6.2")
             }
         }
         val androidMain by getting {
@@ -112,5 +147,14 @@ publishing {
                 register("header", HttpHeaderAuthentication::class.java)
             }
         }
+    }
+}
+
+tasks.getByName<KotlinJvmTest>("jvmTest") {
+    systemProperties["project.version"] = version
+
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
 }

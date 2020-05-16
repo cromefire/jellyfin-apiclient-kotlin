@@ -14,19 +14,13 @@
  *     limitations under the License.
  */
 
-/*
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
 package org.jellyfin.api
 
 import io.ktor.client.request.get
-import org.jellyfin.api.models.User
+import org.jellyfin.api.models.BaseItem
+import org.jellyfin.api.models.ViewsResponse
 
-
-class ApiClient(
+class LibraryApiClient(
     appStorage: Any?,
     serverAddress: String,
     platform: Platform,
@@ -39,20 +33,11 @@ class ApiClient(
     token,
     userId
 ) {
-    val public = PublicApiClient(serverAddress, platform)
-    val library = LibraryApiClient(
-        appStorage,
-        serverAddress,
-        platform,
-        token,
-        userId
-    )
-
-    suspend fun userInfo(): User {
-        return client.get {
+    suspend fun views(): List<BaseItem> {
+        return client.get<ViewsResponse> {
             url {
-                path("Users/$userId")
+                path("users/$userId/views")
             }
-        }
+        }.items
     }
 }
