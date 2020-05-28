@@ -17,3 +17,10 @@
 rootProject.name = "jellyfin-apiclient-kotlin"
 include("client")
 enableFeaturePreview("GRADLE_METADATA")
+
+rootProject.children.forEach {
+    it.name = when (it.name) {
+        "client" -> "apiclient-kotlin"
+        else -> it.name
+    }
+}
