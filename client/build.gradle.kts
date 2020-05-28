@@ -44,15 +44,7 @@ kotlin {
      * To find out how to configure the targets, please follow the link:
      * https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets
      */
-    jvm() {
-        val main by compilations.getting {
-            kotlinOptions {
-                // Setup the Kotlin compiler options for the 'main' compilation:
-                jvmTarget = "1.8"
-            }
-        }
-    }
-    jvm("android") {
+    jvm {
         val main by compilations.getting {
             kotlinOptions {
                 // Setup the Kotlin compiler options for the 'main' compilation:
@@ -85,7 +77,7 @@ kotlin {
 
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                api("io.ktor:ktor-client-apache:$ktor_version")
+                api("io.ktor:ktor-client-okhttp:$ktor_version")
                 implementation("io.ktor:ktor-client-json-jvm:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
             }
@@ -97,24 +89,6 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.6.2")
-            }
-        }
-        val androidMain by getting {
-            kotlin.srcDir("android/src/main")
-
-            dependencies {
-                implementation(kotlin("stdlib-jdk8"))
-                api("io.ktor:ktor-client-okhttp:$ktor_version")
-                implementation("io.ktor:ktor-client-json-jvm:$ktor_version")
-                implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
-            }
-        }
-        val androidTest by getting {
-            kotlin.srcDir("android/src/test")
-
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
             }
         }
     }
