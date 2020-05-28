@@ -24,7 +24,7 @@ val ktor_version: String by project
 plugins {
     kotlin("multiplatform") version "1.3.71"
     kotlin("plugin.serialization") version "1.3.71"
-    id("nebula.project") version "7.0.8"
+    id("nebula.contacts") version "5.1.0"
     id("nebula.javadoc-jar") version "17.2.1"
     id("nebula.source-jar") version "17.2.1"
     `maven-publish`
