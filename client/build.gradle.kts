@@ -102,6 +102,18 @@ contacts {
 }
 
 publishing {
+    publications {
+        withType<MavenPublication> {
+            pom {
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+            }
+        }
+    }
     repositories {
         maven("https://gitlab.com/api/v4/projects/17693247/packages/maven") {
             name = "gitlab"
@@ -124,11 +136,13 @@ publishing {
     }
 }
 
-tasks.getByName<KotlinJvmTest>("jvmTest") {
-    systemProperties["project.version"] = version
+tasks {
+    getByName<KotlinJvmTest>("jvmTest") {
+        systemProperties["project.version"] = version
 
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
     }
 }
