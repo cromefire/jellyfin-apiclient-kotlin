@@ -20,7 +20,7 @@ import kotlinx.coroutines.runBlocking
 import org.jellyfin.api.models.AuthenticateResponse
 import java.util.*
 
-internal const val serverUrl = "https://demo.jellyfin.org/nightly"
+internal const val serverUrl = "https://demo.jellyfin.org/stable"
 
 internal fun platform(): Platform {
     return Platform(
