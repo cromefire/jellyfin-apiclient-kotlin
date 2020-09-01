@@ -31,7 +31,7 @@ plugins {
     idea
 }
 
-group = "org.jellyfin"
+group = "org.jellyfin.api"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
